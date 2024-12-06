@@ -1,0 +1,523 @@
+/** @format */
+
+:root {
+    --bg-gradient-dark: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+    --bg-gradient-light: linear-gradient(135deg, #f5f7fa 0%, #e3e6e8 100%);
+    --text-color-dark: #fff;
+    --text-color-light: #2d2d2d;
+    --notebook-bg-dark: rgba(255, 255, 255, 0.1);
+    --notebook-bg-light: rgba(255, 255, 255, 0.9);
+    --btn-bg-dark: rgba(255, 255, 255, 0.1);
+    --btn-bg-light: rgba(0, 0, 0, 0.1);
+}
+
+body {
+    font-family: 'Inter', sans-serif;
+    margin: 0;
+    padding: 20px;
+    background: var(--bg-gradient-dark);
+    color: var(--text-color-dark);
+    min-height: 100vh;
+    transition: background 0.5s ease, color 0.5s ease;
+    position: relative;
+    overflow-x: hidden;
+}
+
+body.light-theme {
+    background: var(--bg-gradient-light);
+    color: var(--text-color-light);
+}
+
+body::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: var(--bg-gradient-light);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.5s ease;
+    z-index: 0;
+}
+
+body.light-theme::before {
+    opacity: 1;
+}
+
+body::after {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: radial-gradient(
+            circle at 20% 30%,
+            rgba(58, 123, 213, 0.1) 0%,
+            transparent 50%
+        ),
+        radial-gradient(
+            circle at 80% 70%,
+            rgba(45, 130, 183, 0.1) 0%,
+            transparent 50%
+        );
+    pointer-events: none;
+    z-index: -1;
+}
+
+.notebook {
+    max-width: 700px; /* Reduced width for more minimalist feel */
+    margin: 40px auto; /* Added top/bottom margin for better centering */
+    background: var(--notebook-bg-dark);
+    border-radius: 15px;
+    padding: 25px;
+    border: none; /* Remove border for cleaner look */
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+    backdrop-filter: blur(10px);
+    transition: background-color 0.5s ease, color 0.5s ease,
+        border-color 0.5s ease, box-shadow 0.5s ease;
+    position: relative;
+    z-index: 1;
+    animation: float 6s ease-in-out infinite;
+}
+
+@keyframes float {
+    0%,
+    100% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(-10px);
+    }
+}
+
+.light-theme .notebook {
+    background: var(--notebook-bg-light);
+}
+
+.toolbar {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 25px;
+    flex-wrap: wrap;
+}
+
+.btn {
+    padding: 10px 20px;
+    border-radius: 10px;
+    background: linear-gradient(
+        135deg,
+        rgba(255, 255, 255, 0.1),
+        rgba(255, 255, 255, 0.05)
+    );
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(5px);
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    font-weight: 500;
+}
+
+.btn:hover {
+    transform: translateY(-3px) scale(1.02);
+    background: linear-gradient(
+        135deg,
+        rgba(255, 255, 255, 0.15),
+        rgba(255, 255, 255, 0.1)
+    );
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+}
+
+.btn--primary {
+    background: linear-gradient(135deg, #3a7bd5 0%, #2d82b7 100%);
+    border: none;
+}
+
+.btn--primary:hover {
+    background: linear-gradient(135deg, #3a7bd5 0%, #2d82b7 100%);
+}
+
+.light-theme .btn {
+    background: rgba(0, 0, 0, 0.1);
+    color: var(--text-color-light);
+    border: 1px solid rgba(0, 0, 0, 0.2);
+}
+
+.light-theme .btn:hover {
+    background: rgba(0, 0, 0, 0.15);
+    border-color: rgba(0, 0, 0, 0.3);
+}
+
+.light-theme .btn--primary {
+    background: linear-gradient(135deg, #4a8ed5, #2d82b7);
+    color: white;
+    border: none;
+}
+
+.light-theme .btn--primary:hover {
+    background: linear-gradient(135deg, #4a8ed5, #2d82b7);
+}
+
+.textarea {
+    width: calc(100% - 40px); /* Adjust width accounting for padding */
+    min-height: 300px; /* Reduced from 400px */
+    max-height: 60vh; /* Added max-height */
+    padding: 20px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 15px;
+    resize: none; /* Change from 'vertical' to 'none' to prevent resizing */
+    font-size: 16px;
+    line-height: 1.6;
+    margin-bottom: 20px;
+    background: linear-gradient(145deg, rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.2));
+    color: #fff;
+    transition: all 0.3s ease;
+    overflow-y: auto; /* Enable vertical scrolling */
+    scrollbar-width: thin;
+    scrollbar-color: rgba(255, 255, 255, 0.3) rgba(0, 0, 0, 0.2);
+    box-sizing: border-box; /* Add this to include padding in width calculation */
+}
+
+.textarea:focus {
+    outline: none;
+    border-color: rgba(58, 123, 213, 0.5);
+    box-shadow: 0 0 20px rgba(58, 123, 213, 0.3);
+    animation: textareaFocusDark 0.3s ease;
+}
+
+.textarea::-webkit-scrollbar {
+    width: 8px;
+}
+
+.textarea::-webkit-scrollbar-track {
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: 4px;
+}
+
+.textarea::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.3);
+    border-radius: 4px;
+    transition: all 0.3s ease;
+}
+
+.textarea::-webkit-scrollbar-thumb:hover {
+    background: rgba(255, 255, 255, 0.4);
+}
+
+.light-theme .textarea {
+    background: rgba(255, 255, 255, 0.9);
+    color: var(--text-color-light);
+    scrollbar-color: rgba(0, 0, 0, 0.3) rgba(255, 255, 255, 0.1);
+}
+
+.light-theme .textarea:focus {
+    outline: none;
+    border-color: rgba(45, 130, 183, 0.5);
+    box-shadow: 0 0 20px rgba(45, 130, 183, 0.2);
+    animation: textareaFocusLight 0.3s ease;
+}
+
+.light-theme .textarea::-webkit-scrollbar-track {
+    background: rgba(0, 0, 0, 0.1);
+}
+
+.light-theme .textarea::-webkit-scrollbar-thumb {
+    background: rgba(0, 0, 0, 0.2);
+}
+
+.light-theme .textarea::-webkit-scrollbar-thumb:hover {
+    background: rgba(0, 0, 0, 0.3);
+}
+
+.calculator {
+    width: calc(100% - 50px); /* Account for its own padding */
+    display: none;
+    background: linear-gradient(145deg, rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.2));
+    padding: 20px;
+    border-radius: 15px;
+    margin-bottom: 25px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    box-sizing: border-box;
+    transition: background-color 0.5s ease, color 0.5s ease,
+        border-color 0.5s ease, box-shadow 0.5s ease;
+    position: relative;
+    z-index: 1;
+    backdrop-filter: blur(15px);
+}
+
+.calculator--visible {
+    display: block;
+    animation: slideDown 0.3s ease;
+}
+
+@keyframes slideDown {
+    from {
+        transform: translateY(-20px);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+.calculator__display {
+    width: 100%;
+    padding: 20px;
+    font-size: 28px;
+    height: 60px;
+    text-align: right;
+    margin-bottom: 20px;
+    border-radius: 10px;
+    background: rgba(255, 255, 255, 0.1);
+    color: #fff;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.calculator__buttons {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 15px;
+}
+
+.calculator__btn {
+    padding: 15px;
+    height: 50px;
+    font-size: 20px;
+    border-radius: 15px;
+    background: linear-gradient(
+        145deg,
+        rgba(255, 255, 255, 0.1),
+        rgba(255, 255, 255, 0.05)
+    );
+    backdrop-filter: blur(5px);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.calculator__btn:hover {
+    transform: translateY(-2px) scale(1.05);
+    background: linear-gradient(
+        145deg,
+        rgba(255, 255, 255, 0.15),
+        rgba(255, 255, 255, 0.1)
+    );
+}
+
+.calculator__btn:active {
+    transform: translateY(0);
+}
+
+.calculator__btn--operator {
+    background: linear-gradient(135deg, #4a8ed5, #2d82b7);
+    font-weight: bold;
+}
+
+.status-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px;
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    transition: background-color 0.5s ease, color 0.5s ease,
+        border-color 0.5s ease, box-shadow 0.5s ease;
+    position: relative;
+    z-index: 1;
+}
+
+.word-count {
+    color: rgba(255, 255, 255, 0.7);
+}
+
+.format-panel {
+    width: calc(100% - 30px); /* Account for its own padding */
+    padding: 15px;
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: 12px;
+    margin-bottom: 20px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-sizing: border-box;
+    display: none;
+    transition: background-color 0.5s ease, color 0.5s ease,
+        border-color 0.5s ease, box-shadow 0.5s ease;
+    position: relative;
+    z-index: 1;
+}
+
+.format-panel--visible {
+    display: flex;
+    gap: 12px;
+    animation: slideIn 0.3s ease;
+}
+
+@keyframes slideIn {
+    from {
+        transform: translateX(-10px);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+.theme-toggle {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+}
+
+.theme-toggle__checkbox {
+    display: none;
+}
+
+.theme-toggle__label {
+    cursor: pointer;
+    width: 45px; /* Reduced from 60px */
+    height: 45px; /* Reduced from 60px */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    transform-origin: center;
+    transition: all 0.3s ease;
+    backdrop-filter: blur(8px);
+    border: 2px solid rgba(255, 255, 255, 0.1);
+}
+
+.theme-toggle__label:hover {
+    transform: scale(1.1);
+    background: rgba(255, 255, 255, 0.2);
+}
+
+.theme-toggle__sun,
+.theme-toggle__moon {
+    width: 20px; /* Reduced from 24px */
+    height: 20px; /* Reduced from 24px */
+    position: absolute;
+    transition: all 0.3s ease;
+    fill: currentColor;
+}
+
+.theme-toggle__sun {
+    opacity: 0;
+    transform: scale(0.5);
+}
+
+.theme-toggle__moon {
+    opacity: 1;
+    transform: scale(1);
+}
+
+.theme-toggle__checkbox:checked + .theme-toggle__label .theme-toggle__sun {
+    opacity: 1;
+    transform: scale(1);
+}
+
+.theme-toggle__checkbox:checked + .theme-toggle__label .theme-toggle__moon {
+    opacity: 0;
+    transform: scale(0.5);
+}
+
+.light-theme .btn {
+    background: rgba(0, 0, 0, 0.1);
+    color: var(--text-color-light);
+    border: 1px solid rgba(0, 0, 0, 0.2);
+}
+
+.light-theme .btn:hover {
+    background: rgba(0, 0, 0, 0.15);
+    border-color: rgba(0, 0, 0, 0.3);
+}
+
+.light-theme .calculator {
+    background: linear-gradient(
+        145deg,
+        rgba(255, 255, 255, 0.9),
+        rgba(255, 255, 255, 0.8)
+    );
+}
+
+.light-theme .calculator__display {
+    background: rgba(255, 255, 255, 0.9);
+    color: #333;
+}
+
+.light-theme .calculator__btn {
+    background: linear-gradient(
+        145deg,
+        rgba(255, 255, 255, 0.9),
+        rgba(255, 255, 255, 0.7)
+    );
+    color: #333;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.light-theme .btn--primary {
+    background: linear-gradient(135deg, #4a8ed5, #2d82b7);
+    color: white;
+    border: none;
+}
+
+.light-theme .status-bar {
+    background: gray;
+}
+
+.light-theme .format-panel {
+    background: rgba(255, 255, 255, 0.9);
+    color: var(--text-color-light);
+    border-color: rgba(0, 0, 0, 0.2);
+}
+
+/* Animation for dark theme focus effect */
+@keyframes textareaFocusDark {
+    0% {
+        transform: scale(0.995);
+        border-color: rgba(255, 255, 255, 0.1);
+        box-shadow: 0 0 0 rgba(58, 123, 213, 0);
+    }
+    50% {
+        transform: scale(1.002);
+    }
+    100% {
+        transform: scale(1);
+        border-color: rgba(58, 123, 213, 0.5);
+        box-shadow: 0 0 20px rgba(58, 123, 213, 0.3);
+    }
+}
+
+/* Animation for light theme focus effect */
+@keyframes textareaFocusLight {
+    0% {
+        transform: scale(0.995);
+        border-color: rgba(0, 0, 0, 0.1);
+        box-shadow: 0 0 0 rgba(45, 130, 183, 0);
+    }
+    50% {
+        transform: scale(1.002);
+    }
+    100% {
+        transform: scale(1);
+        border-color: rgba(45, 130, 183, 0.5);
+        box-shadow: 0 0 20px rgba(45, 130, 183, 0.2);
+    }
+}
+
+.format-panel .btn {
+    min-width: 40px;
+    font-weight: bold;
+    font-family: 'Times New Roman', serif;
+}
+
+.format-panel .btn i {
+    font-style: italic;
+}
+
+.format-panel .btn u {
+    text-decoration: underline;
+}

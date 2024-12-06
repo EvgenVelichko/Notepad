@@ -1,0 +1,148 @@
+<!-- @format -->
+
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <link rel="shortcut icon" href="./src/assets/favicon.png" type="image/x-icon" />
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <link rel="stylesheet" href="style.css" />
+        <title>NotePad</title>
+    </head>
+    <body>
+        <div class="notebook">
+            <div class="theme-toggle">
+                <input
+                    type="checkbox"
+                    class="theme-toggle__checkbox"
+                    id="themeToggle" />
+                <label class="theme-toggle__label" for="themeToggle">
+                    <svg class="theme-toggle__sun" viewBox="0 0 24 24">
+                        <path
+                            d="M12,18 C8.686,18 6,15.314 6,12 C6,8.686 8.686,6 12,6 C15.314,6 18,8.686 18,12 C18,15.314 15.314,18 12,18 M12,4 C7.582,4 4,7.582 4,12 C4,16.418 7.582,20 12,20 C16.418,20 20,16.418 20,12 C20,7.582 16.418,4 12,4" />
+                    </svg>
+                    <svg class="theme-toggle__moon" viewBox="0 0 24 24">
+                        <path
+                            d="M12.1,22 C17.5,22 21.9,17.6 21.9,12.2 C21.9,6.8 17.5,2.4 12.1,2.4 C12.1,2.4 13.9,7.3 11.5,11.8 C9.1,16.3 4,15.8 4,15.8 C5.6,19.4 8.6,22 12.1,22" />
+                    </svg>
+                </label>
+            </div>
+
+            <div class="toolbar">
+                <button class="btn btn--primary" onclick="saveNote()">
+                    Сохранить
+                </button>
+                <button class="btn" onclick="clearNote()">Очистить</button>
+                <button class="btn" onclick="toggleCalculator()">
+                    Калькулятор
+                </button>
+                <button class="btn" onclick="toggleFormatPanel()">
+                    Форматирование
+                </button>
+                <button class="btn" onclick="downloadNote()">Скачать</button>
+            </div>
+
+            <div class="format-panel" id="formatPanel">
+                <button
+                    class="btn"
+                    onclick="formatText('bold')"
+                    title="Жирный текст (Ctrl+B)">
+                    B
+                </button>
+                <button
+                    class="btn"
+                    onclick="formatText('italic')"
+                    title="Курсив (Ctrl+I)">
+                    <i>I</i>
+                </button>
+                <button
+                    class="btn"
+                    onclick="formatText('underline')"
+                    title="Подчеркнутый (Ctrl+U)">
+                    <u>U</u>
+                </button>
+            </div>
+
+            <div class="calculator" id="calculator">
+                <input
+                    type="text"
+                    class="calculator__display"
+                    id="display"
+                    readonly />
+                <div class="calculator__buttons">
+                    <button class="calculator__btn" onclick="appendNumber('7')">
+                        7
+                    </button>
+                    <button class="calculator__btn" onclick="appendNumber('8')">
+                        8
+                    </button>
+                    <button class="calculator__btn" onclick="appendNumber('9')">
+                        9
+                    </button>
+                    <button
+                        class="calculator__btn calculator__btn--operator"
+                        onclick="setOperation('+')">
+                        +
+                    </button>
+                    <button class="calculator__btn" onclick="appendNumber('4')">
+                        4
+                    </button>
+                    <button class="calculator__btn" onclick="appendNumber('5')">
+                        5
+                    </button>
+                    <button class="calculator__btn" onclick="appendNumber('6')">
+                        6
+                    </button>
+                    <button
+                        class="calculator__btn calculator__btn--operator"
+                        onclick="setOperation('-')">
+                        -
+                    </button>
+                    <button class="calculator__btn" onclick="appendNumber('1')">
+                        1
+                    </button>
+                    <button class="calculator__btn" onclick="appendNumber('2')">
+                        2
+                    </button>
+                    <button class="calculator__btn" onclick="appendNumber('3')">
+                        3
+                    </button>
+                    <button
+                        class="calculator__btn calculator__btn--operator"
+                        onclick="setOperation('*')">
+                        ×
+                    </button>
+                    <button class="calculator__btn" onclick="appendNumber('0')">
+                        0
+                    </button>
+                    <button class="calculator__btn" onclick="appendNumber('.')">
+                        .
+                    </button>
+                    <button
+                        class="calculator__btn calculator__btn--operator"
+                        onclick="calculate()">
+                        =
+                    </button>
+                    <button
+                        class="calculator__btn calculator__btn--operator"
+                        onclick="setOperation('/')">
+                        /
+                    </button>
+                </div>
+            </div>
+
+            <textarea
+                class="textarea"
+                id="notepad"
+                placeholder="Начните писать здесь..."
+                oninput="updateWordCount()"></textarea>
+
+            <div class="status-bar">
+                <span class="word-count" id="wordCount">Слов: 0</span>
+                <span class="word-count" id="charCount">Символов: 0</span>
+            </div>
+        </div>
+
+        <script src="./src/services/script.js"></script>
+    </body>
+</html>
